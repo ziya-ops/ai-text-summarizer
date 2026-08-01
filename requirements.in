@@ -1,0 +1,6 @@
+openai
+fastapi
+uvicorn
+pydantic-settings
+python-dotenv
+Anthropic
