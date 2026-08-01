@@ -2,9 +2,11 @@ import time
 from anthropic import Anthropic
 from app.config import settings
 from app.models import SummarizeRequest
+from utils.retry import retry_with_backoff
 
 client = Anthropic(api_key=settings.anthropic_api_key)
 
+@retry_with_backoff(max_retries=3, base_delay=1, max_delay=10)
 def predict_anthropic(request: SummarizeRequest) -> tuple[str, float]:
     start_time = time.time()
 
