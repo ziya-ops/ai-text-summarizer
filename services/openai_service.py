@@ -4,7 +4,7 @@ from app.config import settings
 from app.models import SummarizeRequest
 from utils.retry import retry_with_backoff
 
-client = OpenAI(api_key=settings.openai_api_key)
+client = OpenAI(api_key=settings.openai_api_key, base_url=settings.openai_base_url)
 
 @retry_with_backoff(max_retries=3, base_delay=1, max_delay=10)
 def predict_openai(request: SummarizeRequest) -> tuple[str, float]:
@@ -13,7 +13,7 @@ def predict_openai(request: SummarizeRequest) -> tuple[str, float]:
     prompt = f"Summarize the following text in {request.max_length} words or less:\n\n{request.text}"
 
     response = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5.4-mini",
         messages=[
             {"role": "system", "content": "You are a helpful assistant that creates concise summaries."},
             {"role": "user", "content": prompt}

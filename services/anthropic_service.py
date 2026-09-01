@@ -4,7 +4,7 @@ from app.config import settings
 from app.models import SummarizeRequest
 from utils.retry import retry_with_backoff
 
-client = Anthropic(api_key=settings.anthropic_api_key)
+client = Anthropic(api_key=settings.anthropic_api_key, base_url=settings.anthropic_base_url)
 
 @retry_with_backoff(max_retries=3, base_delay=1, max_delay=10)
 def predict_anthropic(request: SummarizeRequest) -> tuple[str, float]:
@@ -13,7 +13,7 @@ def predict_anthropic(request: SummarizeRequest) -> tuple[str, float]:
     prompt = f"Summarize the following text in {request.max_length} words or less:\n\n{request.text}"
 
     response = client.messages.create(
-        model="claude-3-5-haiku-20241022",
+        model="claude-haiku-4-5-20251001",
         max_tokens=request.max_length * 2,
         temperature=0.3,
         messages=[

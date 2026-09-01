@@ -12,7 +12,7 @@ def predict_with_fallback(request: SummarizeRequest) -> tuple[str, str, float]:
         logger.info("Attempting OpenAI (primary)")
         summary, latency = predict_openai(request)
         logger.info(f"OpenAI succeeded in {latency:.2f}ms")
-        return summary, "gpt-4o-mini", latency
+        return summary, "gpt-5.4-mini", latency
     except Exception as e:
         error_msg = f"OpenAI failed: {str(e)}"
         logger.warning(error_msg)
@@ -22,7 +22,7 @@ def predict_with_fallback(request: SummarizeRequest) -> tuple[str, str, float]:
         logger.info("Attempting Anthropic (fallback)")
         summary, latency = predict_anthropic(request)
         logger.info(f"Anthropic succeeded in {latency:.2f}ms")
-        return summary, "claude-3-5-haiku", latency
+        return summary, "claude-haiku-4-5", latency
     except Exception as e:
         error_msg = f"Anthropic failed: {str(e)}"
         logger.warning(error_msg)
